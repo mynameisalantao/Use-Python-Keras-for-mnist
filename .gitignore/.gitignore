@@ -1,0 +1,62 @@
+#載入模塊
+import numpy as np    #載入numpy模塊
+from keras.models import Sequential  #Sequential宣告model
+from keras.layers.core import Dense,Activation  #載入Dense為Full-connected Layer,Activation設定激活函數
+from keras.optimizers import SGD   #優化器之Gradient Descent
+from keras.utils import np_utils   #轉成one-hot 的形式模塊
+
+#可以用來開啟gz檔案類型
+import gzip
+#開啟training data的圖片，並將讀取到的值指定給x_train變數
+with gzip.open('C:\python36\Lib\site-packages\keras\datasets\mnist.npz/train-images-idx3-ubyte.gz', 'rb') as f1:
+    x_train=f1.read()
+#開啟training data的label，並將讀取到的值指定給y_train變數
+with gzip.open('C:\python36\Lib\site-packages\keras\datasets\mnist.npz/train-labels-idx1-ubyte.gz',  'rb') as f2:
+    y_train=f2.read()
+#開啟testing data的圖片，並將讀取到的值指定給x_test變數
+with gzip.open('C:\python36\Lib\site-packages\keras\datasets\mnist.npz/t10k-images-idx3-ubyte.gz', 'rb') as f3:
+    x_test=f3.read()
+#開啟testing data的label，並將讀取到的值指定給y_train變數
+with gzip.open('C:\python36\Lib\site-packages\keras\datasets\mnist.npz/t10k-labels-idx1-ubyte.gz',  'rb') as f4:
+    y_test=f4.read()
+
+#將x_train去掉前面部分，並且轉array然後reshape成60000張28*28的圖片
+from numpy import *
+x_train=bytearray(x_train)
+x_train=x_train[16:47040016]
+x_train=array(x_train)
+x_train=x_train.reshape(60000,28*28)
+
+#將x_test去掉前面部分，並且轉array然後reshape成10000張28*28的圖片
+x_test=bytearray(x_test)
+x_test=x_test[16:7840016]
+x_test=array(x_test)
+x_test=x_test.reshape(10000,28*28)
+
+#將y_train去掉前面部分，並且轉array然後每個元素轉成10維的向量
+y_train=y_train[8:60008]
+y_train=bytearray(y_train)
+y_train=array(y_train)
+y_train = np_utils.to_categorical( y_train, num_classes=10)
+
+
+#將y_test去掉前面部分，並且轉array然後每個元素轉成10維的向量
+y_test=y_test[8:10008]
+y_test=bytearray(y_test)
+y_test=array(y_test)
+y_test = np_utils.to_categorical( y_test, num_classes=10)
+
+
+#因為image的每個pixel有255的深淺數值，先進行normalize，變成0到1的值
+x_train=x_train/255
+x_test=x_test/255
+
+#開始程式
+model=Sequential()
+model.add(Dense(input_dim=28*28,units=50,activation='relu'))
+model.add(Dense(units=50,activation='sigmoid'))
+model.add(Dense(units=50,activation='sigmoid'))
+model.add(Dense(units=50,activation='sigmoid'))
+model.add(Dense(units=10,activation='softmax'))
+model.compile(loss='mse',optimizer=SGD(lr=0.01),metrics=['accuracy'])
+model.fit(x_train,y_train,batch_size=32,epochs=2)
