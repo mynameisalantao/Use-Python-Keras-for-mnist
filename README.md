@@ -1,3 +1,5 @@
+使用Gradient Descent實作mnist(20180623)
+==========================================
 首先為載入這次實作回用到的模塊
 <pre><code>import numpy as np
 from keras.models import Sequential
