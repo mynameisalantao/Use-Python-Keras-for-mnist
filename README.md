@@ -103,8 +103,13 @@ model.add(Dense(units=50,activation='sigmoid'))</pre></code>
 則測試結果如下:
 <pre><code>60000/60000 [==============================] - 311s 5ms/step - loss: 1.5986 - acc: 0.5923</pre></code>
 對於training data的正確率大幅上升了，但遺憾的是loss也增加了
-
-
-
+可能是learning太低了，然後給他的epoch又不夠，所以接著又把他們調大了~
+<pre><code>model.compile(loss='categorical_crossentropy',optimizer=SGD(lr=0.01),metrics=['accuracy'])
+model.fit(x_train,y_train,batch_size=20,epochs=4)</pre></code>
+最後training data的結果:
+<pre><code>60000/60000 [==============================] - 604s 10ms/step - loss: 0.1546 - acc: 0.9538</pre></code>
+最後testing data的結果:
+<pre><code>10000/10000 [==============================] - 1978s 198ms/step  Test Acc = 0.9535</pre></code>
+因為這台筆電沒有GPU，把bach size調大效果一樣，所以train下來花了不少時間...
 
           
