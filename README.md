@@ -93,6 +93,16 @@ model.add(Dense(units=50,activation='sigmoid'))</pre></code>
 準確率只有11.24%簡直慘不忍睹....10個猜1個數，運氣好一點都比它準了...<br/>
 看來還有不少問題待優化~~
 
+後記(20180626)
+=======
+考量到可能因為使用了sigmoid激活函數，造成越靠近input端的gradient較小，幾乎無法對輸出造成影響<br/>
+所以把激活函數改成了ReLU做測試
+<pre><code>model.add(Dense(units=50,activation='relu'))</pre></code>
+並且計算Loss function的方式改用cross entropy，
+<pre><code>model.compile(loss='categorical_crossentropy',optimizer=SGD(lr=0.001),metrics=['accuracy'])</pre></code>
+則測試結果如下:
+<pre><code>60000/60000 [==============================] - 311s 5ms/step - loss: 1.5986 - acc: 0.5923</pre></code>
+對於training data的正確率大幅上升了，但遺憾的是loss也增加了
 
 
 
