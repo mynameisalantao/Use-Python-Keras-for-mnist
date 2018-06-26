@@ -102,7 +102,7 @@ model.add(Dense(units=50,activation='sigmoid'))</pre></code>
 <pre><code>model.compile(loss='categorical_crossentropy',optimizer=SGD(lr=0.001),metrics=['accuracy'])</pre></code>
 則測試結果如下:
 <pre><code>60000/60000 [==============================] - 311s 5ms/step - loss: 1.5986 - acc: 0.5923</pre></code>
-對於training data的正確率大幅上升了，但遺憾的是loss也增加了
+對於training data的正確率大幅上升了，但loss也增加了~想要再增加正確率~<br/>
 可能是learning太低了，然後給他的epoch又不夠，所以接著又把他們調大了~
 <pre><code>model.compile(loss='categorical_crossentropy',optimizer=SGD(lr=0.01),metrics=['accuracy'])
 model.fit(x_train,y_train,batch_size=20,epochs=4)</pre></code>
